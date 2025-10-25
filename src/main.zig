@@ -5,10 +5,16 @@ const stdout = &stdout_writer.interface;
 
 fn print_pascal(n:u8) !void {
     for (1..n+1) |row| {
-        std.debug.print("row: {d}\n", .{row});
+        var c:u64 = 1;
+        for (1..row+1) |i| {
+            try stdout.print("{d} ", .{c});
+            c = c * ( row - i ) / i;
+        }
+        try stdout.print("\n", .{});
     }
+    try stdout.flush();
 }
 
 pub fn main() !void {
-    try print_pascal(10);
+    try print_pascal(5);
 }
