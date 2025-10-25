@@ -1,9 +1,10 @@
 const std = @import("std");
+const getn = @import("getn.zig");
 var stdout_buffer:[1024]u8 =undefined;
 var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
 const stdout = &stdout_writer.interface;
 
-fn print_pascal(n:u8) !void {
+fn print_pascal(n:u16) !void {
     var align_space = n;
     for (1..n+1) |row| {
         for (0..align_space) |_| {
@@ -21,5 +22,9 @@ fn print_pascal(n:u8) !void {
 }
 
 pub fn main() !void {
-    try print_pascal(5);
+    try stdout.print("How many rows? => ", .{});
+    try stdout.flush();
+    const n = try getn.get_n();
+
+    try print_pascal(n);
 }
